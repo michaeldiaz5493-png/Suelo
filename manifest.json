@@ -1,12 +1,12 @@
 {
   "name": "SUELO — Volvé a pisarlo",
   "short_name": "SUELO",
-  "description": "Tu espacio privado de apoyo emocional. Herramientas basadas en ciencia para momentos de crisis, ansiedad y pensamientos difíciles. Sin registro. Sin datos. Solo vos.",
-  "start_url": "/index.html",
-  "scope": "/",
+  "description": "Tu espacio privado de apoyo emocional. Sin registro. Sin datos. Solo vos.",
+  "start_url": "/Suelo/index.html",
+  "scope": "/Suelo/",
   "display": "standalone",
-  "background_color": "#0B0E14",
-  "theme_color": "#0B0E14",
+  "background_color": "#FAF7F2",
+  "theme_color": "#FAF7F2",
   "orientation": "portrait-primary",
   "lang": "es",
   "categories": ["health", "lifestyle", "medical"],
@@ -31,17 +31,14 @@
     {
       "name": "Estoy en crisis ahora",
       "short_name": "Crisis",
-      "description": "Acceso directo al protocolo de crisis",
-      "url": "/index.html?crisis=1",
+      "url": "/Suelo/index.html?crisis=1",
       "icons": [{ "src": "icons/icon-192x192.png", "sizes": "192x192" }]
     },
     {
       "name": "Mi diario",
       "short_name": "Diario",
-      "url": "/index.html?screen=journal",
+      "url": "/Suelo/index.html?screen=journal",
       "icons": [{ "src": "icons/icon-192x192.png", "sizes": "192x192" }]
     }
-  ],
-  "related_applications": [],
-  "prefer_related_applications": false
+  ]
 }
