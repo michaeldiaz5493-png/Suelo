@@ -1,10 +1,10 @@
 // ═══════════════════════════════════════════════
-// SUELO — Service Worker v1.2
-// Ajustado para GitHub Pages (/Suelo/ subfolder)
+// SUELO — Service Worker v1.3
+// ⚠️  Incrementar versión en cada deploy
 // ═══════════════════════════════════════════════
 
-const CACHE = 'suelo-v1.2';
-const BASE  = '/Suelo';   // ← subcarpeta de GitHub Pages
+const CACHE = 'suelo-v1.3';
+const BASE  = '/Suelo';
 
 const PRECACHE = [
   BASE + '/index.html',
@@ -16,7 +16,6 @@ const PRECACHE = [
   BASE + '/icons-maskable/maskable-512x512.png'
 ];
 
-// ── INSTALL ──────────────────────────────────
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(CACHE)
@@ -25,45 +24,36 @@ self.addEventListener('install', e => {
   );
 });
 
-// ── ACTIVATE ─────────────────────────────────
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys()
       .then(keys => Promise.all(
-        keys.filter(k => k !== CACHE).map(k => caches.delete(k))
+        keys.filter(k => k !== CACHE).map(k => {
+          console.log('[SUELO SW] Borrando cache viejo:', k);
+          return caches.delete(k);
+        })
       ))
       .then(() => self.clients.claim())
   );
 });
 
-// ── FETCH ─────────────────────────────────────
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
-
-  // Nunca interceptar Claude API ni geolocalización
   if (url.hostname === 'api.anthropic.com') return;
   if (url.hostname === 'ipapi.co') return;
-
-  // Google Fonts — network first
   if (url.hostname.includes('fonts.google') || url.hostname.includes('fonts.gstatic')) {
     e.respondWith(
       fetch(e.request)
-        .then(res => {
-          caches.open(CACHE).then(c => c.put(e.request, res.clone()));
-          return res;
-        })
+        .then(res => { caches.open(CACHE).then(c => c.put(e.request, res.clone())); return res; })
         .catch(() => caches.match(e.request))
     );
     return;
   }
-
-  // Cache first + revalidación en background
   e.respondWith(
     caches.match(e.request).then(cached => {
       if (cached) {
         fetch(e.request).then(fresh => {
-          if (fresh?.status === 200)
-            caches.open(CACHE).then(c => c.put(e.request, fresh));
+          if (fresh?.status === 200) caches.open(CACHE).then(c => c.put(e.request, fresh));
         }).catch(() => {});
         return cached;
       }
@@ -76,7 +66,6 @@ self.addEventListener('fetch', e => {
   );
 });
 
-// ── PUSH NOTIFICATIONS ────────────────────────
 self.addEventListener('push', e => {
   const d = e.data?.json() || {};
   e.waitUntil(
@@ -95,23 +84,19 @@ self.addEventListener('push', e => {
   );
 });
 
-// ── NOTIFICATION CLICK ────────────────────────
 self.addEventListener('notificationclick', e => {
   e.notification.close();
-  const target = e.action === 'crisis'
-    ? BASE + '/index.html?crisis=1'
-    : BASE + '/index.html';
+  const target = e.action === 'crisis' ? BASE + '/index.html?crisis=1' : BASE + '/index.html';
   e.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true })
-      .then(list => {
-        for (const c of list) {
-          if (c.url.includes(self.location.origin) && 'focus' in c) {
-            c.focus();
-            c.postMessage({ type: 'SW_ACTION', action: e.action, url: target });
-            return;
-          }
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
+      for (const c of list) {
+        if (c.url.includes(self.location.origin) && 'focus' in c) {
+          c.focus();
+          c.postMessage({ type: 'SW_ACTION', action: e.action, url: target });
+          return;
         }
-        if (clients.openWindow) return clients.openWindow(target);
-      })
+      }
+      if (clients.openWindow) return clients.openWindow(target);
+    })
   );
 });
