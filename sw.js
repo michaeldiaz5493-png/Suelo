@@ -3,7 +3,7 @@
 // ⚠️  Incrementar versión en cada deploy
 // ═══════════════════════════════════════════════
 
-const CACHE = 'suelo-v2.0';
+const CACHE = 'suelo-v2.2';
 const BASE  = '/Suelo';
 
 const PRECACHE = [
