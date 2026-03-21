@@ -415,11 +415,358 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--tx);font-
 #toast{position:fixed;bottom:calc(84px + var(--sb));left:50%;transform:translateX(-50%) translateY(10px);background:var(--tx);color:var(--bg);padding:11px 20px;border-radius:50px;font-size:13px;opacity:0;transition:all .3s;z-index:9999;white-space:nowrap;max-width:88vw;pointer-events:none;text-align:center;box-shadow:var(--sh2)}
 .stb{display:flex;align-items:center;gap:7px;background:var(--red-s);border:1px solid rgba(192,57,43,.22);border-radius:50px;padding:8px 14px;cursor:pointer;font-size:12px;font-weight:600;color:var(--red)}
 .stb:active{transform:scale(.96)}
+
+/* ═══ MÓDULO SALIR — Depresión ═══ */
+#salir{padding-bottom:calc(80px + var(--sb))}
+
+/* Botón de oscuridad en home — segundo botón flotante */
+#floatOSC{
+  position:fixed;bottom:calc(130px + var(--sb));right:16px;z-index:500;
+  background:var(--bg3);border:1.5px solid var(--bd2);border-radius:50px;
+  padding:10px 16px 10px 13px;
+  display:flex;align-items:center;gap:7px;
+  color:var(--tx2);font-family:var(--fb);font-size:12px;font-weight:600;
+  cursor:pointer;box-shadow:var(--sh2);
+  transition:all .2s;opacity:0;pointer-events:none;letter-spacing:.2px;
+}
+#floatOSC.show{opacity:1;pointer-events:all}
+#floatOSC:active{transform:scale(.96)}
+.osc-moon{font-size:14px}
+
+/* Selector de estado — pantalla principal del modo oscuridad */
+.estado-sel{
+  position:absolute;inset:0;background:var(--bg);z-index:10;
+  display:flex;flex-direction:column;
+  padding:calc(var(--st)+20px) 24px calc(var(--sb)+28px);
+  animation:fu .3s ease;
+}
+.est-head{margin-bottom:28px}
+.est-back{background:var(--sf);border:none;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--tx2);margin-bottom:20px}
+.est-title{font-family:var(--fd);font-size:26px;font-weight:400;line-height:1.25;color:var(--tx);margin-bottom:6px}
+.est-sub{font-size:14px;color:var(--tx2);line-height:1.55}
+.est-opts{display:flex;flex-direction:column;gap:10px;flex:1;justify-content:center}
+.est-btn{
+  background:var(--bg3);border:1.5px solid var(--bd2);border-radius:var(--r);
+  padding:18px 20px;display:flex;align-items:center;gap:14px;
+  cursor:pointer;-webkit-appearance:none;text-align:left;transition:all .2s;
+  box-shadow:var(--sh);
+}
+.est-btn:active{transform:scale(.97)}
+.est-ico{font-size:28px;flex-shrink:0}
+.est-main{font-size:16px;font-weight:600;color:var(--tx);display:block;margin-bottom:3px}
+.est-desc{font-size:12px;color:var(--tx3);display:block;line-height:1.4}
+.est-btn.panic{border-color:rgba(192,57,43,.3);background:var(--red-s)}
+.est-btn.dark{border-color:rgba(60,60,120,.25);background:rgba(60,60,120,.05)}
+[data-theme="dark"] .est-btn.dark{border-color:rgba(140,140,220,.2);background:rgba(80,80,160,.08)}
+.est-btn.both{border-color:rgba(125,95,181,.25);background:var(--vio-s)}
+
+/* Protocolo oscuridad — pantalla del flujo depresión */
+.osc-wrap{padding:calc(var(--st)+18px) 0 calc(var(--sb)+44px);flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.osc-wrap::-webkit-scrollbar{display:none}
+.osc-step{display:none;animation:fu .35s ease;flex-direction:column;padding:0 20px}
+.osc-step.on{display:flex}
+
+/* Reconocimiento — primer mensaje */
+.osc-reconoc{
+  background:linear-gradient(135deg,var(--verd-s),var(--tier-s));
+  border:1px solid rgba(45,122,90,.15);border-radius:var(--r);
+  padding:24px 20px;margin-bottom:20px;text-align:center;
+}
+.osc-reconoc-ico{font-size:40px;margin-bottom:10px}
+.osc-reconoc-title{font-family:var(--fd);font-size:22px;color:var(--tx);margin-bottom:8px;line-height:1.3}
+.osc-reconoc-txt{font-size:14px;color:var(--tx2);line-height:1.7}
+
+/* Actividades sugeridas */
+.act-title{font-size:13px;font-weight:600;color:var(--tx2);margin-bottom:12px;letter-spacing:.3px}
+.act-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.act-item{
+  background:var(--bg3);border:1.5px solid var(--bd);border-radius:var(--r-sm);
+  padding:14px 16px;display:flex;align-items:center;gap:12px;
+  cursor:pointer;transition:all .2s;box-shadow:var(--sh);
+}
+.act-item:active{transform:scale(.98)}
+.act-item.done{border-color:var(--verde);background:var(--verd-s)}
+.act-ico{font-size:22px;flex-shrink:0}
+.act-txt{font-size:14px;font-weight:500;color:var(--tx);line-height:1.35}
+.act-item.done .act-txt{color:var(--verde)}
+
+/* Conexión — personas */
+.conn-title{font-size:13px;font-weight:600;color:var(--tx2);margin-bottom:12px}
+.person-list{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.person-item{
+  background:var(--bg3);border:1.5px solid var(--bd);border-radius:var(--r-sm);
+  padding:14px 16px;display:flex;align-items:center;justify-content:space-between;
+  box-shadow:var(--sh);
+}
+.person-name{font-size:14px;font-weight:600;color:var(--tx)}
+.person-rel{font-size:12px;color:var(--tx3);margin-top:2px}
+.person-call{
+  background:var(--verde);color:#fff;border:none;border-radius:50px;
+  padding:8px 16px;font-family:var(--fb);font-size:12px;font-weight:600;
+  cursor:pointer;transition:all .2s;-webkit-appearance:none;
+}
+.person-call:active{transform:scale(.96)}
+.no-person{
+  background:var(--sf);border-radius:var(--r-sm);padding:14px 16px;
+  font-size:13px;color:var(--tx2);line-height:1.6;margin-bottom:14px;
+  text-align:center;
+}
+
+/* Plan de seguridad */
+#salir .ph{padding:20px 20px 0}
+.plan-sec{margin:0 20px 16px}
+.plan-hd{font-size:12px;letter-spacing:.8px;text-transform:uppercase;color:var(--tierra);font-weight:600;margin-bottom:10px}
+.plan-card{
+  background:var(--bg3);border:1px solid var(--bd);border-radius:var(--r-sm);
+  padding:16px;box-shadow:var(--sh);margin-bottom:10px;
+}
+.plan-label{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--tx3);margin-bottom:6px;font-weight:500}
+.plan-input{
+  width:100%;background:var(--sf);border:1.5px solid transparent;border-radius:var(--r-xs);
+  padding:11px 13px;font-family:var(--fb);font-size:14px;color:var(--tx);
+  outline:none;transition:border .2s;-webkit-appearance:none;resize:none;
+}
+.plan-input:focus{border-color:var(--tierra)}
+.plan-input::placeholder{color:var(--tx3)}
+
+/* Persona en el plan */
+.plan-person-row{display:flex;gap:8px;margin-bottom:8px;align-items:center}
+.plan-person-name{flex:1;background:var(--sf);border:1.5px solid transparent;border-radius:var(--r-xs);padding:10px 12px;font-family:var(--fb);font-size:14px;color:var(--tx);outline:none;transition:border .2s;-webkit-appearance:none}
+.plan-person-name:focus{border-color:var(--tierra)}
+.plan-person-name::placeholder{color:var(--tx3)}
+.plan-person-tel{width:130px;background:var(--sf);border:1.5px solid transparent;border-radius:var(--r-xs);padding:10px 12px;font-family:var(--fb);font-size:14px;color:var(--tx);outline:none;transition:border .2s;-webkit-appearance:none}
+.plan-person-tel:focus{border-color:var(--tierra)}
+.plan-person-tel::placeholder{color:var(--tx3)}
+.plan-add{background:none;border:1.5px dashed var(--bd2);border-radius:var(--r-xs);padding:10px;font-family:var(--fb);font-size:13px;color:var(--tx3);cursor:pointer;width:100%;transition:all .2s;-webkit-appearance:none}
+.plan-add:active{border-color:var(--tierra);color:var(--tierra)}
+
+/* Actividades del plan */
+.plan-act-row{display:flex;gap:8px;margin-bottom:8px;align-items:center}
+.plan-act-in{flex:1;background:var(--sf);border:1.5px solid transparent;border-radius:var(--r-xs);padding:10px 12px;font-family:var(--fb);font-size:14px;color:var(--tx);outline:none;transition:border .2s;-webkit-appearance:none}
+.plan-act-in:focus{border-color:var(--tierra)}
+.plan-act-in::placeholder{color:var(--tx3)}
+.plan-del{background:none;border:none;color:var(--tx3);cursor:pointer;font-size:18px;padding:4px;flex-shrink:0}
+.plan-del:active{color:var(--red)}
+
+/* Rastreador de peso diario */
+.peso-track{margin:0 20px 20px}
+.peso-hd{font-size:13px;font-weight:600;color:var(--tx2);margin-bottom:12px}
+.peso-scale{display:flex;gap:6px}
+.peso-btn{
+  flex:1;border:none;border-radius:var(--r-sm);padding:14px 4px;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  cursor:pointer;transition:all .2s;-webkit-appearance:none;
+  font-family:var(--fb);font-size:10px;font-weight:500;
+}
+.peso-btn:active{transform:scale(.94)}
+.peso-btn.sel{transform:scale(1.06);box-shadow:var(--sh2)}
+.pb1{background:rgba(39,174,96,.12);color:var(--green)}
+.pb1.sel{background:rgba(39,174,96,.25)}
+.pb2{background:rgba(74,158,120,.1);color:var(--verde)}
+.pb2.sel{background:rgba(74,158,120,.22)}
+.pb3{background:var(--amb-s);color:var(--amber)}
+.pb3.sel{background:rgba(196,122,26,.2)}
+.pb4{background:rgba(125,95,181,.08);color:var(--vio)}
+.pb4.sel{background:rgba(125,95,181,.18)}
+.pb5{background:rgba(30,20,60,.06);color:#666}
+[data-theme="dark"] .pb5{background:rgba(100,80,200,.1);color:#aaa}
+.pb5.sel{background:rgba(30,20,60,.15)}
+.peso-ico{font-size:22px}
+
+
+/* ═══ BANNER DE INSTALACIÓN PWA ═══ */
+#installBanner{
+  position:fixed;bottom:calc(80px + var(--sb));left:50%;
+  transform:translateX(-50%) translateY(20px);
+  width:calc(100% - 32px);max-width:398px;
+  background:var(--bg3);border:1.5px solid var(--bd2);
+  border-radius:var(--r);padding:16px;
+  display:flex;align-items:center;gap:12px;
+  box-shadow:var(--sh2);z-index:400;
+  opacity:0;pointer-events:none;
+  transition:all .35s cubic-bezier(.32,.72,0,1);
+}
+#installBanner.show{
+  opacity:1;pointer-events:all;
+  transform:translateX(-50%) translateY(0);
+}
+.ib-icon{
+  width:48px;height:48px;border-radius:12px;
+  background:linear-gradient(145deg,var(--tier-s),var(--verd-s));
+  border:1px solid var(--bd2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;flex-shrink:0;
+}
+.ib-text{flex:1}
+.ib-title{font-size:14px;font-weight:600;color:var(--tx);margin-bottom:2px}
+.ib-sub{font-size:12px;color:var(--tx3);line-height:1.4}
+.ib-btns{display:flex;gap:8px;margin-top:10px}
+.ib-install{
+  flex:1;background:var(--tierra);color:#fff;border:none;
+  border-radius:var(--r-xs);padding:9px;
+  font-family:var(--fb);font-size:13px;font-weight:600;
+  cursor:pointer;transition:all .2s;-webkit-appearance:none;
+}
+.ib-install:active{transform:scale(.97)}
+.ib-dismiss{
+  background:var(--sf);color:var(--tx3);border:none;
+  border-radius:var(--r-xs);padding:9px 12px;
+  font-family:var(--fb);font-size:13px;
+  cursor:pointer;transition:all .2s;-webkit-appearance:none;
+}
+.ib-dismiss:active{transform:scale(.97)}
+
+/* ═══ INSTRUCCIONES iOS ═══ */
+#iosBanner{
+  position:fixed;bottom:calc(80px + var(--sb));left:50%;
+  transform:translateX(-50%) translateY(20px);
+  width:calc(100% - 32px);max-width:398px;
+  background:var(--bg3);border:1.5px solid var(--bd2);
+  border-radius:var(--r);padding:16px;
+  box-shadow:var(--sh2);z-index:400;
+  opacity:0;pointer-events:none;
+  transition:all .35s cubic-bezier(.32,.72,0,1);
+}
+#iosBanner.show{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0)}
+.ios-title{font-size:14px;font-weight:600;color:var(--tx);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.ios-steps{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.ios-step{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--tx2)}
+.ios-num{width:22px;height:22px;border-radius:50%;background:var(--tierra);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
+.ios-close{width:100%;background:var(--sf);border:none;border-radius:var(--r-xs);padding:10px;font-family:var(--fb);font-size:13px;color:var(--tx2);cursor:pointer;-webkit-appearance:none}
+
+
+/* ═══ REFLEXIONAR — Chat con IA ═══ */
+#reflexionar{padding-bottom:0;overflow:hidden;display:flex;flex-direction:column}
+
+/* Header fijo */
+.ref-header{
+  flex-shrink:0;
+  padding:calc(var(--st)+14px) 20px 14px;
+  background:var(--bg);border-bottom:1px solid var(--bd);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.ref-logo{font-family:var(--fd);font-size:20px;font-weight:400;letter-spacing:-.5px;
+  background:linear-gradient(135deg,var(--tierra),var(--verde));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.ref-new{background:var(--sf);border:1px solid var(--bd2);border-radius:50px;
+  padding:7px 14px;font-family:var(--fb);font-size:12px;color:var(--tx2);
+  cursor:pointer;-webkit-appearance:none;transition:all .2s}
+.ref-new:active{border-color:var(--tierra);color:var(--tierra)}
+
+/* Disclaimer */
+.ref-disc{
+  flex-shrink:0;
+  background:var(--amb-s);border-bottom:1px solid rgba(196,122,26,.15);
+  padding:10px 20px;font-size:12px;color:var(--tx2);line-height:1.5;
+  display:flex;align-items:flex-start;gap:8px;
+}
+.ref-disc-ico{flex-shrink:0;font-size:13px;margin-top:1px}
+
+/* Área de mensajes — scrollable */
+.ref-msgs{
+  flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:16px 20px 8px;scrollbar-width:none;
+  display:flex;flex-direction:column;gap:12px;
+}
+.ref-msgs::-webkit-scrollbar{display:none}
+
+/* Empty state */
+.ref-empty{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:20px;text-align:center;gap:16px;
+}
+.ref-empty-ico{font-size:48px}
+.ref-empty-title{font-family:var(--fd);font-size:22px;font-weight:400;color:var(--tx)}
+.ref-empty-sub{font-size:14px;color:var(--tx2);line-height:1.65;max-width:280px}
+
+/* Sugerencias de inicio */
+.ref-sugs{display:flex;flex-direction:column;gap:8px;width:100%;max-width:320px}
+.ref-sug{
+  background:var(--bg3);border:1.5px solid var(--bd2);border-radius:var(--r-sm);
+  padding:12px 15px;font-family:var(--fb);font-size:13px;color:var(--tx2);
+  cursor:pointer;text-align:left;transition:all .2s;-webkit-appearance:none;
+  box-shadow:var(--sh);line-height:1.4;
+}
+.ref-sug:active{border-color:var(--tierra);color:var(--tierra)}
+
+/* Burbujas de mensaje */
+.msg{display:flex;flex-direction:column;gap:4px;animation:fu .3s ease}
+.msg.user{align-items:flex-end}
+.msg.ai{align-items:flex-start}
+.msg-bubble{
+  max-width:82%;padding:12px 15px;border-radius:18px;
+  font-size:14px;line-height:1.7;
+}
+.msg.user .msg-bubble{
+  background:var(--tierra);color:#fff;
+  border-radius:18px 18px 4px 18px;
+}
+.msg.ai .msg-bubble{
+  background:var(--bg3);color:var(--tx);
+  border:1px solid var(--bd);border-radius:18px 18px 18px 4px;
+  box-shadow:var(--sh);
+}
+.msg-time{font-size:10px;color:var(--tx3);padding:0 4px}
+
+/* Typing indicator */
+.typing-bubble{
+  background:var(--bg3);border:1px solid var(--bd);
+  border-radius:18px 18px 18px 4px;
+  padding:12px 16px;display:flex;gap:5px;align-items:center;
+  box-shadow:var(--sh);
+}
+.typing-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--tx3);animation:db 1.1s infinite;
+}
+.typing-dot:nth-child(2){animation-delay:.18s}
+.typing-dot:nth-child(3){animation-delay:.36s}
+
+/* Autocompasión card dentro del chat */
+.compassion-card{
+  background:linear-gradient(135deg,var(--verd-s),var(--tier-s));
+  border:1px solid rgba(45,122,90,.2);border-radius:var(--r-sm);
+  padding:16px;margin:4px 0;max-width:82%;
+}
+.cc-title{font-size:11px;letter-spacing:.8px;text-transform:uppercase;
+  color:var(--verde);font-weight:600;margin-bottom:8px}
+.cc-step{font-size:13px;color:var(--tx);line-height:1.7;margin-bottom:6px;
+  display:flex;gap:8px}
+.cc-step-n{color:var(--tierra);font-weight:600;flex-shrink:0}
+
+/* Input área — fija abajo */
+.ref-input-wrap{
+  flex-shrink:0;
+  padding:12px 20px calc(12px + var(--sb));
+  background:var(--bg);border-top:1px solid var(--bd);
+  display:flex;gap:10px;align-items:flex-end;
+}
+.ref-input{
+  flex:1;background:var(--sf);border:1.5px solid transparent;
+  border-radius:22px;padding:11px 16px;
+  font-family:var(--fb);font-size:15px;color:var(--tx);
+  outline:none;resize:none;max-height:120px;min-height:44px;
+  transition:border .2s;-webkit-appearance:none;line-height:1.5;
+}
+.ref-input:focus{border-color:var(--tierra)}
+.ref-input::placeholder{color:var(--tx3)}
+.ref-send{
+  width:44px;height:44px;border-radius:50%;
+  background:var(--tierra);border:none;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .2s;flex-shrink:0;
+  -webkit-appearance:none;
+}
+.ref-send:active{transform:scale(.92)}
+.ref-send:disabled{background:var(--sf2);cursor:default}
+.ref-send svg{width:20px;height:20px;stroke:#fff;fill:none}
+
 </style>
 </head>
 <body>
 <div id="app">
 <button id="fsos" onclick="openCrisis()"><div class="sdot"></div>⚡ SOS</button>
+<button id="floatOSC" onclick="openOscuridad()"><span class="osc-moon">🌑</span>Peso/Vacío</button>
 
 <!-- ═══ ENTRY — pantalla completa sin scroll ═══ -->
 <div id="entry" class="scr on" style="background:var(--bg);justify-content:space-between">
@@ -527,6 +874,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--tx);font-
       <button class="fb mi" onclick="openCrisis()"><span class="fi">😨</span>Miedo</button>
       <button class="fb m" onclick="switchScr('journal')"><span class="fi">😔</span>Angustia</button>
       <button class="fb co" onclick="switchScr('journal')"><span class="fi">🤔</span>Confusión</button>
+      <button class="fb" style="border-color:rgba(60,60,120,.25);background:rgba(60,60,120,.05);color:#666" onclick="openOscuridad()"><span class="fi">🌑</span>Peso</button>
       <button class="fb o" onclick="showToast('Cada día que avanzás cuenta 🌱')"><span class="fi">🙂</span>Mejor</button>
     </div>
   </div>
@@ -535,8 +883,10 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--tx);font-
   <div class="tr">
     <button class="tt" onclick="openCrisis()" style="border-color:rgba(192,57,43,.2);background:var(--red-s)"><span class="ti">⚡</span><span class="tn">Crisis</span><span class="td">Salir del espiral ahora</span></button>
     <button class="tt" onclick="openCrisis()"><span class="ti">🌬️</span><span class="tn">Respirar</span><span class="td">Calmar el sistema nervioso</span></button>
-    <button class="tt" onclick="switchScr('journal')"><span class="ti">📓</span><span class="tn">Escribir</span><span class="td">Procesar con guía IA</span></button>
+    <button class="tt" onclick="switchScr('journal')"><span class="ti">📓</span><span class="tn">Diario</span><span class="td">Tu espacio privado</span></button>
+    <button class="tt" onclick="switchScr('reflexionar')" style="border-color:rgba(184,119,64,.2);background:var(--tier-s)"><span class="ti">✨</span><span class="tn">Reflexionar</span><span class="td">Hablar con IA</span></button>
     <button class="tt" onclick="goLines()"><span class="ti">📞</span><span class="tn">Líneas</span><span class="td">Ayuda profesional</span></button>
+    <button class="tt" onclick="openOscuridad()" style="border-color:rgba(60,60,120,.2);background:rgba(60,60,120,.05)"><span class="ti">🌑</span><span class="tn">Salir</span><span class="td">Del peso y la oscuridad</span></button>
     <button class="tt" onclick="switchScr('learn')"><span class="ti">🧠</span><span class="tn">Entender</span><span class="td">Por qué pasa esto</span></button>
   </div>
   <div class="sb"><div class="sbt">💡 Dato científico</div><div class="sbtx" id="sciTxt">El <strong>94% de las personas</strong> tiene pensamientos intrusivos. No estás sol@ y no significa que algo esté mal en vos.</div></div>
@@ -649,8 +999,8 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--tx);font-
     <label class="fl">Describí lo que sentiste</label>
     <textarea class="jta" id="jText" placeholder="No tiene que ser perfecto. Escribí lo que llegue..." rows="4" oninput="checkSafety(this.value)"></textarea>
     <div class="sfb" id="safetyBanner" style="display:none"><span>🆘</span><span>Lo que describís suena muy difícil. <strong>Si estás en riesgo real</strong>, por favor llamá a una línea de crisis. <button onclick="goLines()" style="background:none;border:none;color:var(--red);text-decoration:underline;cursor:pointer;font-size:13px;padding:0;font-family:var(--fb)">Ver líneas →</button></span></div>
-    <button class="btn gv" style="margin-top:12px" onclick="analyzeJournal()">Analizar con IA ✨</button>
-    <div class="ab" id="aiBox"><div class="al">✦ Reflexión guiada</div><div class="ar" id="aiResp"></div><div class="aq" id="aiQs"></div></div>
+    <button class="btn" style="margin-top:12px;background:var(--sf);color:var(--tx2);border:1.5px solid var(--bd2);box-shadow:none" onclick="saveJournalEntry()">Guardar en privado 🔒</button>
+    <div id="journalSaved" style="display:none;text-align:center;padding:12px;font-size:13px;color:var(--verde)">✓ Guardado — solo vos podés verlo</div>
   </div>
   <div id="jLocked" style="display:none;text-align:center;padding:40px 20px;margin:20px"><div style="font-size:48px;margin-bottom:12px">🔐</div><div style="font-family:var(--fd);font-size:22px;margin-bottom:8px">Diario bloqueado</div><div style="font-size:14px;color:var(--tx2);margin-bottom:24px;line-height:1.6">Ingresá tu PIN para ver tus entradas.</div><button class="btn" style="max-width:200px;margin:0 auto" onclick="showPinLock('journal')">Ingresar PIN</button></div>
   <div class="ps"><div class="phd">Entradas anteriores</div><div id="pastEntries"></div></div>
@@ -692,14 +1042,245 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--tx);font-
   <div class="setrow"><div class="srl"><span class="sri">🔐</span><div><div class="srt">PIN del diario</div><div class="srd" id="pinDesc">No configurado</div></div></div><button class="srb" id="pinBtn" onclick="togglePinSetting()">Activar</button></div>
   <div class="setrow"><div class="srl"><span class="sri">🗑️</span><div><div class="srt">Borrar todas las entradas</div><div class="srd">Elimina el diario del dispositivo</div></div></div><button class="srb dng" onclick="deleteEntries()">Borrar</button></div>
   <div class="setrow"><div class="srl"><span class="sri">💣</span><div><div class="srt">Borrar todo y empezar de cero</div><div class="srd">Elimina nombre, configuración y datos</div></div></div><button class="srb dng" onclick="deleteAll()">Borrar todo</button></div>
+  <div class="sh" style="margin-top:8px">INSTALACIÓN</div>
+  <div class="setrow"><div class="srl"><span class="sri">📲</span><div><div class="srt">Instalar en pantalla de inicio</div><div class="srd">Funciona sin internet · Como app nativa</div></div></div><button class="srb" onclick="showInstallManual()">Instalar</button></div>
   <div class="sh" style="margin-top:8px">SOBRE SUELO</div>
   <div class="setrow"><div class="srl"><span class="sri">ℹ️</span><div><div class="srt">Versión 1.0</div><div class="srd">Basada en TCC, ACT y Neurociencia</div></div></div></div>
   <div class="setrow"><div class="srl"><span class="sri">🔒</span><div><div class="srt">Sin tracking · Sin analytics</div><div class="srd">Nunca recopilamos datos de comportamiento</div></div></div></div>
 </div>
 
+
+
+<!-- ═══ REFLEXIONAR — Chat con IA ═══ -->
+<div id="reflexionar" class="scr">
+
+  <!-- Header -->
+  <div class="ref-header">
+    <div class="ref-logo">✨ Reflexionar</div>
+    <button class="ref-new" onclick="newRefSession()">Nueva sesión</button>
+  </div>
+
+  <!-- Disclaimer -->
+  <div class="ref-disc">
+    <span class="ref-disc-ico">🔒</span>
+    <span>Esta conversación es solo tuya. No se guarda al cerrar. La IA acompaña — no diagnostica ni reemplaza a un profesional.</span>
+  </div>
+
+  <!-- Mensajes -->
+  <div class="ref-msgs" id="refMsgs">
+    <!-- Empty state -->
+    <div class="ref-empty" id="refEmpty">
+      <span class="ref-empty-ico">✨</span>
+      <div class="ref-empty-title">Hola, estoy acá</div>
+      <div class="ref-empty-sub">Podés escribir lo que quieras. Esto es un espacio de reflexión — no hay respuestas correctas ni incorrectas.</div>
+      <div class="ref-sugs" id="refSugs">
+        <button class="ref-sug" onclick="sendSug(this)">😔 Me siento vacío y no sé por qué</button>
+        <button class="ref-sug" onclick="sendSug(this)">😰 Tengo pensamientos que no puedo parar</button>
+        <button class="ref-sug" onclick="sendSug(this)">🌑 Siento un peso enorme hoy</button>
+        <button class="ref-sug" onclick="sendSug(this)">🤔 Quiero entender qué me está pasando</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Input -->
+  <div class="ref-input-wrap">
+    <textarea
+      class="ref-input"
+      id="refInput"
+      placeholder="Escribí lo que querés..."
+      rows="1"
+      oninput="autoResizeRef(this)"
+      onkeydown="refKeydown(event)"
+    ></textarea>
+    <button class="ref-send" id="refSendBtn" onclick="sendRefMsg()" disabled>
+      <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"></line>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+      </svg>
+    </button>
+  </div>
+
+</div>
+
+<!-- ═══ SELECTOR DE ESTADO ═══ -->
+<div id="estadoSel" class="scr up z2" style="overflow:hidden">
+  <div class="estado-sel">
+    <div class="est-head">
+      <button class="est-back" onclick="closeEstadoSel()">←</button>
+      <div class="est-title">¿Cómo es<br>lo que sentís?</div>
+      <div class="est-sub">No hay respuesta correcta. Solo decile a la app qué está pasando.</div>
+    </div>
+    <div class="est-opts">
+      <button class="est-btn panic" onclick="openCrisisFromSel()">
+        <span class="est-ico">⚡</span>
+        <div><span class="est-main">Pánico o espiral</span><span class="est-desc">Pensamientos que no paran, urgencia, alarma</span></div>
+      </button>
+      <button class="est-btn dark" onclick="openModoOscuridad()">
+        <span class="est-ico">🌑</span>
+        <div><span class="est-main">Peso o vacío</span><span class="est-desc">Sin ganas, oscuridad, todo parece sin sentido</span></div>
+      </button>
+      <button class="est-btn both" onclick="openModoCombinado()">
+        <span class="est-ico">🌀</span>
+        <div><span class="est-main">Las dos cosas juntas</span><span class="est-desc">Pánico y vacío al mismo tiempo</span></div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODO OSCURIDAD — Protocolo depresión ═══ -->
+<div id="modoOscuridad" class="scr up z2">
+  <div class="crisis-top" style="background:linear-gradient(180deg,rgba(60,60,120,.08),transparent)">
+    <button class="back" onclick="closeModoOscuridad()" style="margin-bottom:16px">←</button>
+    <div class="ctit" style="font-size:24px">Estoy acá.<br>No te pido nada.</div>
+    <div class="csub">Solo una cosa pequeña a la vez.</div>
+  </div>
+  <div class="osc-wrap">
+
+    <!-- PASO 0: Reconocimiento + actividades -->
+    <div class="osc-step on" id="osc0">
+      <div class="osc-reconoc">
+        <div class="osc-reconoc-ico">🌍</div>
+        <div class="osc-reconoc-title">Que hayas abierto esto<br>ya importa.</div>
+        <div class="osc-reconoc-txt">No tenés que sentirte mejor ahora mismo.<br>Solo una cosa pequeña.</div>
+      </div>
+
+      <div class="act-title">ELEGÍ UNA — LA QUE MENOS ENERGÍA TE PIDA</div>
+      <div class="act-list" id="actList">
+        <!-- Se llena dinámicamente con actividades del plan + genéricas -->
+      </div>
+
+      <button class="btn" style="margin-bottom:10px" onclick="oscStep(1)">Hice algo pequeño →</button>
+      <button class="btn ghost" onclick="oscStep(1)">Continuar sin hacer nada</button>
+    </div>
+
+    <!-- PASO 1: Conexión -->
+    <div class="osc-step" id="osc1">
+      <div style="background:var(--sf);border-radius:var(--r);padding:20px;text-align:center;margin-bottom:20px">
+        <div style="font-size:32px;margin-bottom:8px">👋</div>
+        <div style="font-family:var(--fd);font-size:18px;color:var(--tx);margin-bottom:6px">¿Hay alguien cerca?</div>
+        <div style="font-size:13px;color:var(--tx2);line-height:1.6">No tenés que explicar nada.<br>Solo estar con alguien puede mover algo.</div>
+      </div>
+
+      <div class="conn-title">TUS PERSONAS</div>
+      <div class="person-list" id="personList">
+        <!-- Se llena con personas del plan -->
+      </div>
+
+      <button class="btn" style="margin-bottom:10px" onclick="oscStep(2)">Contacté a alguien →</button>
+      <button class="btn ghost" onclick="oscStep(2)">No hay nadie ahora</button>
+    </div>
+
+    <!-- PASO 2: Tu ancla + crisis si necesita -->
+    <div class="osc-step" id="osc2">
+      <!-- Razón para seguir -->
+      <div id="anclaWrap" style="margin-bottom:20px;display:none">
+        <div style="background:linear-gradient(135deg,var(--tier-s),var(--verd-s));border:1px solid rgba(45,122,90,.15);border-radius:var(--r);padding:20px;text-align:center">
+          <div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--tierra);font-weight:600;margin-bottom:8px">ESTO LO ESCRIBISTE VOS</div>
+          <div style="font-family:var(--fd);font-size:16px;color:var(--tx);line-height:1.6;font-style:italic" id="anclaText"></div>
+        </div>
+      </div>
+
+      <!-- Si no tiene plan: mensaje genérico -->
+      <div id="anclaGenWrap" style="margin-bottom:20px;display:none">
+        <div style="background:var(--sf);border-radius:var(--r);padding:20px;text-align:center">
+          <div style="font-size:32px;margin-bottom:8px">🌱</div>
+          <div style="font-family:var(--fd);font-size:16px;color:var(--tx);line-height:1.6">Este momento va a pasar.<br>No lo podés sentir ahora<br>pero es real.</div>
+        </div>
+      </div>
+
+      <div style="background:var(--red-s);border:1px solid rgba(192,57,43,.2);border-radius:var(--r-sm);padding:16px;margin-bottom:14px">
+        <div style="font-size:14px;font-weight:600;color:var(--red);margin-bottom:6px">¿Seguís en un momento muy oscuro?</div>
+        <div style="font-size:13px;color:var(--tx2);line-height:1.55;margin-bottom:10px">Hay personas esperando tu llamada ahora mismo. Gratis, anónimo, sin juicios. No tenés que estar en peligro extremo — el vacío también es razón suficiente.</div>
+        <div style="font-family:var(--fd);font-size:20px;color:var(--tx);margin-bottom:10px" id="oscLineNum">🌍 Cargando...</div>
+        <button class="btn red sm" onclick="goLines()">Ver líneas de mi país →</button>
+      </div>
+
+      <button class="btn gv" onclick="closeModoOscuridad()">Estoy un poco mejor</button>
+      <button class="btn ghost" onclick="switchScr('journal');closeModoOscuridad()">📓 Escribir cómo me siento</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ PANTALLA SALIR — Plan de seguridad ═══ -->
+<div id="salir" class="scr">
+  <div class="topbar">
+    <div class="tb-logo">SUELO</div>
+    <button class="stb" onclick="openOscuridad()"><div class="sdot"></div>Peso/Vacío</button>
+  </div>
+
+  <div class="ph">
+    <div class="pt">Tu plan personal</div>
+    <div class="ps">Construilo cuando estás bien. Úsalo cuando la oscuridad llega.</div>
+  </div>
+
+  <!-- Rastreador de peso diario -->
+  <div class="peso-track">
+    <div class="peso-hd">¿Cómo es el peso hoy?</div>
+    <div class="peso-scale">
+      <button class="peso-btn pb1" id="pb1" onclick="setPeso(1)"><span class="peso-ico">☀️</span>Leve</button>
+      <button class="peso-btn pb2" id="pb2" onclick="setPeso(2)"><span class="peso-ico">🌤️</span>Algo</button>
+      <button class="peso-btn pb3" id="pb3" onclick="setPeso(3)"><span class="peso-ico">⛅</span>Medio</button>
+      <button class="peso-btn pb4" id="pb4" onclick="setPeso(4)"><span class="peso-ico">🌧️</span>Pesado</button>
+      <button class="peso-btn pb5" id="pb5" onclick="setPeso(5)"><span class="peso-ico">🌑</span>Total</button>
+    </div>
+  </div>
+
+  <div class="dv" style="margin:0 20px 16px"></div>
+
+  <!-- Señales de alerta -->
+  <div class="plan-sec">
+    <div class="plan-hd">🔍 Mis señales — cuando la oscuridad se acerca</div>
+    <div class="plan-card">
+      <div class="plan-label">¿Cómo sabés que está llegando?</div>
+      <textarea class="plan-input" id="planSenales" rows="3" placeholder="Ej: me quedo quieto, dejo de contestar mensajes, el vacío aparece cuando estoy solo..." oninput="savePlan()"></textarea>
+    </div>
+  </div>
+
+  <!-- Actividades pequeñas -->
+  <div class="plan-sec">
+    <div class="plan-hd">⚡ Lo que me mueve aunque sea un poco</div>
+    <div class="plan-card">
+      <div class="plan-label">Actividades de muy poca energía — las tuyas</div>
+      <div id="planActList"></div>
+      <button class="plan-add" onclick="addPlanAct()">+ Agregar actividad</button>
+    </div>
+  </div>
+
+  <!-- Personas -->
+  <div class="plan-sec">
+    <div class="plan-hd">👥 Mis personas</div>
+    <div class="plan-card">
+      <div class="plan-label">A quienes puedo contactar cuando la oscuridad llega</div>
+      <div id="planPersonList"></div>
+      <button class="plan-add" onclick="addPlanPerson()">+ Agregar persona</button>
+    </div>
+  </div>
+
+  <!-- Razón para seguir -->
+  <div class="plan-sec">
+    <div class="plan-hd">🌱 Lo que me ancla</div>
+    <div class="plan-card">
+      <div class="plan-label">Una razón para seguir — aunque ahora no la puedas sentir</div>
+      <textarea class="plan-input" id="planAncla" rows="3" placeholder="Puede ser una persona, algo pendiente, algo que te importa aunque sea pequeño..." oninput="savePlan()"></textarea>
+    </div>
+  </div>
+
+  <!-- Disclaimer -->
+  <div style="margin:0 20px 28px;background:var(--amb-s);border:1px solid rgba(196,122,26,.2);border-radius:var(--r-sm);padding:13px 15px;font-size:12px;color:var(--tx2);line-height:1.65">
+    ⚠️ SUELO no evalúa ni diagnostica. Este plan es un apoyo personal — no reemplaza a un profesional de salud mental.
+  </div>
+</div>
+
 <nav class="bnav">
   <button class="nb on" id="nav-home" onclick="switchScr('home')"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 21V12h6v9"/></svg>Inicio</button>
   <button class="nb" id="nav-journal" onclick="switchScr('journal')"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Diario</button>
+  <button class="nb" id="nav-reflexionar" onclick="switchScr('reflexionar')">
+    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>Reflexionar
+  </button>
+  <button class="nb" id="nav-salir" onclick="switchScr('salir')">
+    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>Salir
+  </button>
   <button class="nb" id="nav-learn" onclick="switchScr('learn')"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>Aprender</button>
 </nav>
 
@@ -714,6 +1295,31 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--tx);font-
   </div>
   <div class="ple" id="plErr"></div>
 </div>
+
+<!-- ═══ BANNER DE INSTALACIÓN ═══ -->
+<div id="installBanner">
+  <div class="ib-icon">🌍</div>
+  <div class="ib-text">
+    <div class="ib-title">Instalar SUELO</div>
+    <div class="ib-sub">Funciona sin internet · Sin App Store · Gratis</div>
+    <div class="ib-btns">
+      <button class="ib-install" onclick="triggerInstall()">Instalar ahora</button>
+      <button class="ib-dismiss" onclick="dismissInstall()">Ahora no</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ INSTRUCCIONES iOS ═══ -->
+<div id="iosBanner">
+  <div class="ios-title">🌍 Instalar SUELO en tu iPhone</div>
+  <div class="ios-steps">
+    <div class="ios-step"><div class="ios-num">1</div><span>Tocá el botón <strong>Compartir</strong> 📤 en Safari</span></div>
+    <div class="ios-step"><div class="ios-num">2</div><span>Seleccioná <strong>"Agregar a pantalla de inicio"</strong></span></div>
+    <div class="ios-step"><div class="ios-num">3</div><span>Tocá <strong>"Agregar"</strong> arriba a la derecha</span></div>
+  </div>
+  <button class="ios-close" onclick="dismissInstall()">Entendido</button>
+</div>
+
 <div id="toast"></div>
 </div>
 
@@ -749,7 +1355,7 @@ function applyTheme(dark){
 function toggleTheme(){isDark=!isDark;DB.set('darkMode',isDark);applyTheme(isDark);showToast(isDark?'Modo oscuro activado 🌙':'Modo claro activado ☀️');}
 
 function showEntry(){document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));document.getElementById('entry').classList.add('on');document.getElementById('fsos').classList.remove('show');}
-function showHome(){document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));document.getElementById('home').classList.add('on');document.getElementById('fsos').classList.add('show');loadHome();initSci();detectCountry();}
+function showHome(){document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));document.getElementById('home').classList.add('on');document.getElementById('fsos').classList.add('show');document.getElementById('floatOSC').classList.add('show');loadHome();initSci();detectCountry();}
 function entryCrisis(){document.getElementById('entry').classList.remove('on');document.getElementById('crisis').classList.add('on');document.getElementById('fsos').classList.remove('show');resetCrisis();}
 function entryNormal(){document.getElementById('entry').classList.remove('on');user.name?showHome():document.getElementById('onboarding').classList.add('on');}
 
@@ -772,7 +1378,7 @@ function switchScr(name){
   // Cerrar pantallas flotantes si están abiertas
   ['crisis','lines','mod-detail'].forEach(id=>document.getElementById(id)?.classList.remove('on'));
   stopBreath();resetSigh();
-  ['home','journal','learn'].forEach(s=>{document.getElementById(s).classList.remove('on');const nb=document.getElementById('nav-'+s);if(nb)nb.classList.remove('on');});
+  ['home','journal','learn','salir','reflexionar'].forEach(s=>{document.getElementById(s).classList.remove('on');const nb=document.getElementById('nav-'+s);if(nb)nb.classList.remove('on');});
   document.getElementById(name).classList.add('on');const nb=document.getElementById('nav-'+name);if(nb)nb.classList.add('on');
   if(name==='journal')renderPastEntries();
 }
@@ -991,6 +1597,479 @@ document.addEventListener('visibilitychange',()=>{
     if(document.getElementById('home')?.classList.contains('on'))initSci();
   }
 });
+
+
+// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════
+// REFLEXIONAR — Chat con IA
+// ═══════════════════════════════════════════════
+
+let refHistory = [];
+let refSending = false;
+
+const REF_SYSTEM = `Sos un acompañante empático entrenado en TCC, ACT y autocompasión (Kristin Neff). Tu rol: escuchar, reflejar y hacer preguntas que ayuden a la persona a entenderse mejor. Idioma: español latinoamericano, informal, cálido. Nunca clínico ni distante.
+
+REGLAS ABSOLUTAS:
+- Nunca diagnosticás ni usás términos de diagnóstico
+- Nunca prometés que algo va a mejorar
+- Si detectás riesgo real (ideación suicida activa, planes concretos), siempre derivás a línea de crisis
+- No sos terapeuta ni reemplazás a uno — lo decís si te preguntan
+- Respuestas cortas: máximo 4 oraciones. Una sola pregunta por respuesta
+- Validás antes de preguntar — siempre
+
+ENFOQUE:
+- Cuando detectás autocrítica o comparación, usás el ejercicio del amigo: "¿Le hablarías así a alguien que querés?"
+- Cuando detectás peso o vacío depresivo, ofrecés la Pausa de Autocompasión con los 3 pasos
+- Cuando detectás pensamientos intrusivos, usás defusión cognitiva suavemente
+- Cuando la persona habla de ego o comparación, nombrás la humanidad compartida`;
+
+function newRefSession() {
+  if (refHistory.length > 0) {
+    if (!confirm('¿Empezar una nueva sesión? Esta conversación se borrará.')) return;
+  }
+  refHistory = [];
+  const msgs = document.getElementById('refMsgs');
+  if (!msgs) return;
+  msgs.innerHTML = `<div class="ref-empty" id="refEmpty">
+    <span class="ref-empty-ico">✨</span>
+    <div class="ref-empty-title">Hola, estoy acá</div>
+    <div class="ref-empty-sub">Podés escribir lo que quieras. No hay respuestas correctas ni incorrectas.</div>
+    <div class="ref-sugs" id="refSugs">
+      <button class="ref-sug" onclick="sendSug(this)">😔 Me siento vacío y no sé por qué</button>
+      <button class="ref-sug" onclick="sendSug(this)">😰 Tengo pensamientos que no puedo parar</button>
+      <button class="ref-sug" onclick="sendSug(this)">🌑 Siento un peso enorme hoy</button>
+      <button class="ref-sug" onclick="sendSug(this)">🤔 Quiero entender qué me está pasando</button>
+    </div>
+  </div>`;
+  const input = document.getElementById('refInput');
+  if (input) { input.value = ''; autoResizeRef(input); }
+  updateSendBtn();
+}
+
+function sendSug(btn) {
+  const full = btn.textContent.trim();
+  const text = full.replace(/^[\u{1F300}-\u{1FFFF}\u{2600}-\u{27FF}\u{2B00}-\u{2BFF}\u{FE00}-\u{FEFF}\u{1F000}-\u{1F9FF}\uFE0F ]+/u, '');
+  const input = document.getElementById('refInput');
+  if (input) input.value = text || full;
+  const empty = document.getElementById('refEmpty');
+  if (empty) empty.style.display = 'none';
+  sendRefMsg();
+}
+
+async function sendRefMsg() {
+  if (refSending) return;
+  const input = document.getElementById('refInput');
+  if (!input) return;
+  const text = input.value.trim();
+  if (!text) return;
+  const empty = document.getElementById('refEmpty');
+  if (empty) empty.style.display = 'none';
+  addRefMsg('user', text);
+  refHistory.push({ role: 'user', content: text });
+  input.value = '';
+  autoResizeRef(input);
+  updateSendBtn();
+  refSending = true;
+  const typingId = showTyping();
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 400,
+        system: REF_SYSTEM,
+        messages: refHistory
+      })
+    });
+    const data = await res.json();
+    removeTyping(typingId);
+    if (data.content && data.content[0]) {
+      const aiText = data.content[0].text;
+      refHistory.push({ role: 'assistant', content: aiText });
+      addRefMsg('ai', aiText);
+      // Ofrecer tarjeta de autocompasión si la IA la menciona
+      const lower = aiText.toLowerCase();
+      if (lower.includes('autocompasi') || lower.includes('pausa') || lower.includes('manos en el pecho')) {
+        addCompassionCard();
+      }
+    }
+  } catch {
+    removeTyping(typingId);
+    addRefMsg('ai', 'Algo falló de mi lado. ¿Podés intentar de nuevo?');
+  }
+  refSending = false;
+  updateSendBtn();
+}
+
+function addRefMsg(role, text) {
+  const msgs = document.getElementById('refMsgs');
+  if (!msgs) return;
+  const now = new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+  const formatted = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  div.innerHTML = '<div class="msg-bubble">' + formatted + '</div><div class="msg-time">' + now + '</div>';
+  msgs.appendChild(div);
+  scrollRefToBottom();
+}
+
+function addCompassionCard() {
+  const msgs = document.getElementById('refMsgs');
+  if (!msgs) return;
+  const div = document.createElement('div');
+  div.className = 'msg ai';
+  div.innerHTML = '<div class="compassion-card"><div class="cc-title">✦ Pausa de autocompasión — 90 segundos</div><div class="cc-step"><span class="cc-step-n">1.</span><span>Reconocé: <em>"Esto duele. Esto es real."</em> Sin juzgarte.</span></div><div class="cc-step"><span class="cc-step-n">2.</span><span>Conectá: <em>"No estoy solo en esto. Mucha gente siente esto."</em></span></div><div class="cc-step"><span class="cc-step-n">3.</span><span>Ponete las manos en el pecho: <em>"Que pueda ser amable conmigo mismo en este momento."</em></span></div></div>';
+  msgs.appendChild(div);
+  scrollRefToBottom();
+}
+
+function showTyping() {
+  const msgs = document.getElementById('refMsgs');
+  if (!msgs) return null;
+  const id = 'typing_' + Date.now();
+  const div = document.createElement('div');
+  div.className = 'msg ai'; div.id = id;
+  div.innerHTML = '<div class="typing-bubble"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+  msgs.appendChild(div);
+  scrollRefToBottom();
+  return id;
+}
+
+function removeTyping(id) { if (id) { const el = document.getElementById(id); if (el) el.remove(); } }
+
+function scrollRefToBottom() {
+  const msgs = document.getElementById('refMsgs');
+  if (msgs) setTimeout(() => { msgs.scrollTop = msgs.scrollHeight; }, 50);
+}
+
+function autoResizeRef(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+  updateSendBtn();
+}
+
+function updateSendBtn() {
+  const input = document.getElementById('refInput');
+  const btn = document.getElementById('refSendBtn');
+  if (input && btn) btn.disabled = !input.value.trim() || refSending;
+}
+
+function refKeydown(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendRefMsg(); }
+}
+
+function saveJournalEntry() {
+  const text = document.getElementById('jText') ? document.getElementById('jText').value.trim() : '';
+  const intensity = document.getElementById('intSlider') ? document.getElementById('intSlider').value : '5';
+  const triggers = [...document.querySelectorAll('.tg.on')].map(t => t.textContent.trim());
+  if (!text || text.length < 3) { showToast('Escribí algo primero ✍️'); return; }
+  DB.push('entries', { date: new Date().toISOString(), text, intensity, triggers });
+  loadHome(); renderPastEntries();
+  const saved = document.getElementById('journalSaved');
+  if (saved) { saved.style.display = 'block'; setTimeout(() => { saved.style.display = 'none'; }, 2500); }
+  if (document.getElementById('jText')) document.getElementById('jText').value = '';
+  document.querySelectorAll('.tg.on').forEach(t => t.classList.remove('on'));
+  if (document.getElementById('intSlider')) document.getElementById('intSlider').value = 5;
+  if (document.getElementById('intVal')) document.getElementById('intVal').textContent = '5';
+  showToast('Guardado 🔒 Solo vos lo ves');
+}
+
+// MÓDULO SALIR — Depresión + Plan de Seguridad
+// ═══════════════════════════════════════════
+
+// Actividades genéricas de muy baja energía (cuando no hay plan)
+const ACT_GENERICAS = [
+  { ico:'🫖', txt:'Preparate algo para tomar — té, agua, lo que tengas' },
+  { ico:'🎵', txt:'Poné música, cualquier cosa — que llene el silencio' },
+  { ico:'🚶', txt:'Caminá hasta otra habitación — solo moverse' },
+  { ico:'🌬️', txt:'Salí al aire libre un minuto — aunque sea al balcón' },
+  { ico:'✍️', txt:'Escribí una sola palabra de cómo te sentís' },
+  { ico:'📱', txt:'Mandá un mensaje a alguien — aunque sea un emoji' },
+  { ico:'🛁', txt:'Lavate la cara con agua fría' },
+  { ico:'☀️', txt:'Buscá un lugar con luz — una ventana, lo que sea' },
+];
+
+// ── APERTURA DEL FLUJO ──────────────────────────────
+function openOscuridad() {
+  document.getElementById('estadoSel').classList.add('on');
+  document.getElementById('floatOSC').classList.remove('show');
+  document.getElementById('fsos').classList.remove('show');
+}
+
+function closeEstadoSel() {
+  document.getElementById('estadoSel').classList.remove('on');
+  if (user.name) {
+    document.getElementById('fsos').classList.add('show');
+    document.getElementById('floatOSC').classList.add('show');
+  }
+}
+
+function openCrisisFromSel() {
+  document.getElementById('estadoSel').classList.remove('on');
+  openCrisis();
+}
+
+function openModoCombinado() {
+  // Combinado: primero ansiedad, al terminar abre oscuridad
+  document.getElementById('estadoSel').classList.remove('on');
+  openCrisis();
+  // Flag para que al cerrar crisis abra oscuridad
+  window._afterCrisisOpenOsc = true;
+}
+
+// ── MODO OSCURIDAD ───────────────────────────────────
+function openModoOscuridad() {
+  document.getElementById('estadoSel').classList.remove('on');
+  resetModoOscuridad();
+  document.getElementById('modoOscuridad').classList.add('on');
+  buildActList();
+  buildPersonList();
+  loadOscLineNum();
+  loadAncla();
+}
+
+function closeModoOscuridad() {
+  document.getElementById('modoOscuridad').classList.remove('on');
+  if (user.name) {
+    document.getElementById('fsos').classList.add('show');
+    document.getElementById('floatOSC').classList.add('show');
+  }
+  updateStreak();
+}
+
+function resetModoOscuridad() {
+  document.querySelectorAll('.osc-step').forEach(s => s.classList.remove('on'));
+  document.getElementById('osc0').classList.add('on');
+}
+
+function oscStep(n) {
+  document.querySelectorAll('.osc-step').forEach(s => s.classList.remove('on'));
+  document.getElementById('osc' + n).classList.add('on');
+}
+
+// ── CONSTRUIR LISTA DE ACTIVIDADES ───────────────────
+function buildActList() {
+  const plan = DB.get('salidaPlan') || {};
+  const planActs = plan.actividades || [];
+  const container = document.getElementById('actList');
+  if (!container) return;
+
+  // Mezclar: primero las del plan, luego algunas genéricas
+  let acts = [];
+  planActs.forEach(a => { if (a.trim()) acts.push({ ico:'⭐', txt:a.trim(), personal:true }); });
+
+  // Completar con genéricas aleatorias hasta tener 4-5
+  const shuffled = [...ACT_GENERICAS].sort(() => Math.random() - 0.5);
+  shuffled.forEach(a => { if (acts.length < 5) acts.push(a); });
+
+  container.innerHTML = acts.map((a, i) => `
+    <div class="act-item" id="act${i}" onclick="toggleActDone(${i})">
+      <span class="act-ico">${a.ico}</span>
+      <span class="act-txt">${a.txt}${a.personal ? ' <span style="font-size:10px;color:var(--tierra);font-weight:600">· TUYA</span>' : ''}</span>
+    </div>
+  `).join('');
+}
+
+function toggleActDone(i) {
+  const el = document.getElementById('act' + i);
+  if (el) el.classList.toggle('done');
+}
+
+// ── CONSTRUIR LISTA DE PERSONAS ───────────────────────
+function buildPersonList() {
+  const plan = DB.get('salidaPlan') || {};
+  const personas = plan.personas || [];
+  const container = document.getElementById('personList');
+  if (!container) return;
+
+  if (!personas.length || !personas.some(p => p.nombre.trim())) {
+    container.innerHTML = `<div class="no-person">No tenés personas guardadas en tu plan todavía.<br><br>
+      <button onclick="switchScr('salir');closeModoOscuridad()" style="background:none;border:none;color:var(--tierra);text-decoration:underline;cursor:pointer;font-family:var(--fb);font-size:13px">Agregar personas a tu plan →</button>
+    </div>`;
+    return;
+  }
+
+  container.innerHTML = personas
+    .filter(p => p.nombre.trim())
+    .map(p => `
+      <div class="person-item">
+        <div>
+          <div class="person-name">${escHTML(p.nombre)}</div>
+          <div class="person-rel">${escHTML(p.tel || 'Sin número guardado')}</div>
+        </div>
+        ${p.tel ? `<a href="tel:${p.tel.replace(/[^0-9+]/g,'')}" class="person-call">📞 Llamar</a>` : ''}
+      </div>
+    `).join('');
+}
+
+function loadOscLineNum() {
+  const d = currentCountry ? LINES[currentCountry] : null;
+  const el = document.getElementById('oscLineNum');
+  if (el) el.textContent = d ? `${d.flag} ${d.num} · ${d.label}` : '🌍 findahelpline.com · 175+ países';
+}
+
+function loadAncla() {
+  const plan = DB.get('salidaPlan') || {};
+  const ancla = plan.ancla || '';
+  const anclaEl = document.getElementById('anclaText');
+  const anclaWrap = document.getElementById('anclaWrap');
+  const anclaGen = document.getElementById('anclaGenWrap');
+  if (ancla.trim()) {
+    if (anclaEl) anclaEl.textContent = ancla;
+    if (anclaWrap) anclaWrap.style.display = 'block';
+    if (anclaGen) anclaGen.style.display = 'none';
+  } else {
+    if (anclaWrap) anclaWrap.style.display = 'none';
+    if (anclaGen) anclaGen.style.display = 'block';
+  }
+}
+
+// ── PLAN DE SEGURIDAD ────────────────────────────────
+function savePlan() {
+  const plan = DB.get('salidaPlan') || {};
+  const senalesEl = document.getElementById('planSenales');
+  const anclaEl = document.getElementById('planAncla');
+  if (senalesEl) plan.senales = senalesEl.value;
+  if (anclaEl) plan.ancla = anclaEl.value;
+  DB.set('salidaPlan', plan);
+}
+
+function loadPlan() {
+  const plan = DB.get('salidaPlan') || {};
+  const senalesEl = document.getElementById('planSenales');
+  const anclaEl = document.getElementById('planAncla');
+  if (senalesEl) senalesEl.value = plan.senales || '';
+  if (anclaEl) anclaEl.value = plan.ancla || '';
+  renderPlanActs();
+  renderPlanPersons();
+  loadTodayPeso();
+}
+
+// ── ACTIVIDADES DEL PLAN ─────────────────────────────
+function renderPlanActs() {
+  const plan = DB.get('salidaPlan') || {};
+  const acts = plan.actividades || [''];
+  const container = document.getElementById('planActList');
+  if (!container) return;
+  container.innerHTML = acts.map((a, i) => `
+    <div class="plan-act-row">
+      <input class="plan-act-in" type="text" value="${escHTML(a)}" placeholder="Ej: poner música, salir a caminar..." oninput="updatePlanAct(${i}, this.value)">
+      <button class="plan-del" onclick="deletePlanAct(${i})">✕</button>
+    </div>
+  `).join('');
+}
+
+function addPlanAct() {
+  const plan = DB.get('salidaPlan') || {};
+  plan.actividades = plan.actividades || [];
+  plan.actividades.push('');
+  DB.set('salidaPlan', plan);
+  renderPlanActs();
+  // Focus en el último input
+  setTimeout(() => {
+    const inputs = document.querySelectorAll('.plan-act-in');
+    if (inputs.length) inputs[inputs.length-1].focus();
+  }, 50);
+}
+
+function updatePlanAct(i, val) {
+  const plan = DB.get('salidaPlan') || {};
+  plan.actividades = plan.actividades || [];
+  plan.actividades[i] = val;
+  DB.set('salidaPlan', plan);
+}
+
+function deletePlanAct(i) {
+  const plan = DB.get('salidaPlan') || {};
+  plan.actividades = plan.actividades || [];
+  plan.actividades.splice(i, 1);
+  DB.set('salidaPlan', plan);
+  renderPlanActs();
+}
+
+// ── PERSONAS DEL PLAN ────────────────────────────────
+function renderPlanPersons() {
+  const plan = DB.get('salidaPlan') || {};
+  const personas = plan.personas || [{ nombre:'', tel:'' }];
+  const container = document.getElementById('planPersonList');
+  if (!container) return;
+  container.innerHTML = personas.map((p, i) => `
+    <div class="plan-person-row">
+      <input class="plan-person-name" type="text" value="${escHTML(p.nombre)}" placeholder="Nombre..." oninput="updatePlanPerson(${i},'nombre',this.value)">
+      <input class="plan-person-tel" type="tel" value="${escHTML(p.tel||'')}" placeholder="Teléfono..." oninput="updatePlanPerson(${i},'tel',this.value)">
+      <button class="plan-del" onclick="deletePlanPerson(${i})">✕</button>
+    </div>
+  `).join('');
+}
+
+function addPlanPerson() {
+  const plan = DB.get('salidaPlan') || {};
+  plan.personas = plan.personas || [];
+  plan.personas.push({ nombre:'', tel:'' });
+  DB.set('salidaPlan', plan);
+  renderPlanPersons();
+  setTimeout(() => {
+    const inputs = document.querySelectorAll('.plan-person-name');
+    if (inputs.length) inputs[inputs.length-1].focus();
+  }, 50);
+}
+
+function updatePlanPerson(i, field, val) {
+  const plan = DB.get('salidaPlan') || {};
+  plan.personas = plan.personas || [];
+  if (!plan.personas[i]) plan.personas[i] = { nombre:'', tel:'' };
+  plan.personas[i][field] = val;
+  DB.set('salidaPlan', plan);
+}
+
+function deletePlanPerson(i) {
+  const plan = DB.get('salidaPlan') || {};
+  plan.personas = plan.personas || [];
+  plan.personas.splice(i, 1);
+  DB.set('salidaPlan', plan);
+  renderPlanPersons();
+}
+
+// ── RASTREADOR DE PESO ───────────────────────────────
+function setPeso(n) {
+  const today = new Date().toDateString();
+  const pesos = DB.get('pesos') || {};
+  pesos[today] = n;
+  DB.set('pesos', pesos);
+  // Visual feedback
+  for (let i = 1; i <= 5; i++) {
+    const btn = document.getElementById('pb' + i);
+    if (btn) btn.classList.toggle('sel', i === n);
+  }
+}
+
+function loadTodayPeso() {
+  const today = new Date().toDateString();
+  const pesos = DB.get('pesos') || {};
+  const val = pesos[today];
+  if (val) {
+    for (let i = 1; i <= 5; i++) {
+      const btn = document.getElementById('pb' + i);
+      if (btn) btn.classList.toggle('sel', i === val);
+    }
+  }
+}
+
+// ── HELPER: escapar HTML ─────────────────────────────
+function escHTML(str) {
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── INTEGRACIÓN CON switchScr ────────────────────────
+// Cargar el plan cuando se abre la pantalla Salir
+const _origSwitchScr = switchScr;
+switchScr = function(name) {
+  _origSwitchScr(name);
+  if (name === 'salir') {
+    loadPlan();
+  }
+};
 
 if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').then(()=>{navigator.serviceWorker.addEventListener('message',e=>{if(e.data?.type==='SW_ACTION'&&e.data.action==='crisis')openCrisis();});});});}
 // Prevenir zoom por doble-tap en botones sin romper scroll
