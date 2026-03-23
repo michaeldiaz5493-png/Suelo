@@ -890,6 +890,15 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--tx);font-
     <button class="tt" onclick="switchScr('learn')"><span class="ti">🧠</span><span class="tn">Entender</span><span class="td">Por qué pasa esto</span></button>
   </div>
   <div class="sb"><div class="sbt">💡 Dato científico</div><div class="sbtx" id="sciTxt">El <strong>94% de las personas</strong> tiene pensamientos intrusivos. No estás sol@ y no significa que algo esté mal en vos.</div></div>
+
+  <!-- Botón instalar PWA — aparece solo cuando el browser lo permite -->
+  <div id="installBtn" style="display:none;margin:0 20px 24px;background:linear-gradient(135deg,var(--tier-s),var(--verd-s));border:1.5px solid rgba(184,119,64,.2);border-radius:var(--r);padding:16px 18px;align-items:center;gap:14px;cursor:pointer;box-shadow:var(--sh)" onclick="installPWA()">
+    <span style="font-size:28px">📲</span>
+    <div>
+      <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:3px">Instalar SUELO en tu celular</div>
+      <div style="font-size:12px;color:var(--tx2)">Acceso directo desde la pantalla de inicio · Sin abrir el navegador</div>
+    </div>
+  </div>
 </div>
 
 <!-- ═══ CRISIS ═══ -->
@@ -1601,6 +1610,38 @@ document.addEventListener('visibilitychange',()=>{
 
 // ═══════════════════════════════════════════
 // ═══════════════════════════════════════════════
+// PWA INSTALL — botón propio más confiable que el banner
+// ═══════════════════════════════════════════════
+let deferredInstallPrompt = null;
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  // Mostrar botón de instalación en home
+  const btn = document.getElementById('installBtn');
+  if (btn) btn.style.display = 'flex';
+});
+
+window.addEventListener('appinstalled', () => {
+  deferredInstallPrompt = null;
+  const btn = document.getElementById('installBtn');
+  if (btn) btn.style.display = 'none';
+  showToast('✅ SUELO instalado en tu pantalla de inicio');
+});
+
+function installPWA() {
+  if (!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  deferredInstallPrompt.userChoice.then(result => {
+    if (result.outcome === 'accepted') {
+      showToast('Instalando SUELO...');
+    }
+    deferredInstallPrompt = null;
+    const btn = document.getElementById('installBtn');
+    if (btn) btn.style.display = 'none';
+  });
+}
+
 // REFLEXIONAR — Chat con IA
 // ═══════════════════════════════════════════════
 
@@ -2071,7 +2112,7 @@ switchScr = function(name) {
   }
 };
 
-if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').then(()=>{navigator.serviceWorker.addEventListener('message',e=>{if(e.data?.type==='SW_ACTION'&&e.data.action==='crisis')openCrisis();});});});}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js').then(reg=>{console.log('[SUELO] SW registrado, scope:',reg.scope);navigator.serviceWorker.addEventListener('message',e=>{if(e.data?.type==='SW_ACTION'&&e.data.action==='crisis')openCrisis();});}).catch(err=>console.warn('[SUELO] SW error:',err));});}
 // Prevenir zoom por doble-tap en botones sin romper scroll
 let lastTap=0;
 document.addEventListener('touchend',e=>{

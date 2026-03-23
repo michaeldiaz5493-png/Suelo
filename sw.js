@@ -3,17 +3,15 @@
 // ⚠️  Incrementar versión en cada deploy
 // ═══════════════════════════════════════════════
 
-const CACHE = 'suelo-v2.2';
-const BASE  = '/Suelo';
+const CACHE = 'suelo-v2.4';
 
 const PRECACHE = [
-  BASE + '/index.html',
-  BASE + '/manifest.json',
-  BASE + '/icons/icon-192x192.png',
-  BASE + '/icons/icon-512x512.png',
-  BASE + '/icons/icon-180x180.png',
-  BASE + '/icons-maskable/maskable-192x192.png',
-  BASE + '/icons-maskable/maskable-512x512.png'
+  './',
+  './index.html',
+  './manifest.json',
+  './icons/icon-192x192.png',
+  './icons/icon-512x512.png',
+  './icons/icon-180x180.png'
 ];
 
 self.addEventListener('install', e => {
