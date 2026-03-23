@@ -1,5 +1,4 @@
 {
-  "id": "/Suelo/",
   "name": "SUELO — Volvé a pisarlo",
   "short_name": "SUELO",
   "description": "Tu espacio privado de apoyo emocional. Sin registro. Sin datos. Solo vos.",
@@ -8,20 +7,9 @@
   "display": "standalone",
   "background_color": "#FAF7F2",
   "theme_color": "#FAF7F2",
-  "orientation": "portrait-primary",
-  "lang": "es",
-  "categories": ["health", "lifestyle", "medical"],
+  "orientation": "portrait",
   "icons": [
-    { "src": "icons/icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
-    { "src": "icons/icon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
-  ],
-  "shortcuts": [
-    {
-      "name": "Estoy en crisis ahora",
-      "short_name": "Crisis",
-      "url": "index.html?crisis=1",
-      "icons": [{ "src": "icons/icon-192x192.png", "sizes": "192x192" }]
-    }
-  ],
-  "prefer_related_applications": false
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
 }
